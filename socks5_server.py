@@ -225,7 +225,7 @@ class Socks5Server:
             for sock in err_ready:
                 if sock == self.server_sock:
                     self.logger.critical('Error in server socket; closing down')
-                    for c in connected_socks:
+                    for c in connected_sockets:
                         c.close()
                     self.server_sock.close()
                     sys.exit(1)
