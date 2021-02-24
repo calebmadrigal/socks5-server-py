@@ -129,6 +129,10 @@ class Socks5Server:
                 for i in range(len(dst_addr) // 2):
                     tmp_addr.append(chr(dst_addr[2 * i] * 256 + dst_addr[2 * i + 1]))
                 dst_addr = ':'.join(tmp_addr)
+
+            if not address_type:
+                return dest_host, dest_port
+            
             dst_port = chr_to_int(dst_port[0]) * 256 + chr_to_int(dst_port[1])
             server_sock = sock
             server_ip = ''.join([chr(int(i)) for i in socket.gethostbyname(self.host).split('.')])
@@ -219,7 +223,7 @@ class Socks5Server:
             for sock in out_ready:
                 try:
                     self.buffer_send(sock)
-                except Exception:
+                except Exception as e:
                     self.flush_and_close_sock_pair(sock, str(e))
 
             for sock in err_ready:
