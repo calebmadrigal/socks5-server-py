@@ -111,7 +111,8 @@ class Socks5Server:
         """ Speak the SOCKS5 protocol to get and return dest_host, dest_port. """
         dest_host, dest_port = None, None
         try:
-            ver, nmethods, methods = sock.recv(1), sock.recv(1), sock.recv(1)
+            ver, nmethods = sock.recv(1), sock.recv(1)
+            methods = sock.recv(nmethods[0])
             sock.sendall(VER + METHOD)
             ver, cmd, rsv, address_type = sock.recv(1), sock.recv(1), sock.recv(1), sock.recv(1)
             dst_addr = None
